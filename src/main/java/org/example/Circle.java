@@ -33,29 +33,24 @@ public class Circle extends Shape {
 
         Set<Point> set = new HashSet<>(List.of(centre, left, right, top, bottom));
         //draw horizontally
-        for (int i = left.x + 1; i < centre.x; i++) {
-            int y = (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - centre.x, 2))) + centre.y;
-            set.add(new CustomPoint(i, y, " / "));
-            set.add(new CustomPoint(i, -y + centre.y * 2, " ‛ "));
+        for (int i = left.x + 1; i < right.x; i++) {
+            int y = getCoords(i, centre.x, centre.y);
+            set.add(new CustomPoint(i, y, i < centre.x ? " / " : " \\ "));
+            set.add(new CustomPoint(i, -y + centre.y * 2, i < centre.x ? " ‛ " : " ‘ "));
         }
-        for (int i = centre.x + 1; i < right.x; i++) {
-            int y = (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - centre.x, 2))) + centre.y;
-            set.add(new CustomPoint(i, y, " \\ "));
-            set.add(new CustomPoint(i, -y + centre.y * 2, " ‘ "));
-        }
+
         //draw vertically
-        for (int i = bottom.y + 1; i < centre.y; i++) {
-            int x = (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - centre.y, 2))) + centre.x;
-            set.add(new CustomPoint(x, i, " / "));
-            set.add(new CustomPoint(-x + centre.x * 2, i, " ‛ "));
-        }
-        for (int i = centre.y + 1; i < top.y; i++) {
-            int x = (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - centre.y, 2))) + centre.x;
-            set.add(new CustomPoint(x, i, " ‛ "));
-            set.add(new CustomPoint(-x + centre.x * 2, i, " ‘ "));
+        for (int i = bottom.y + 1; i < top.y; i++) {
+            int x = getCoords(i, centre.y, centre.x);
+            set.add(new CustomPoint(x, i, i < centre.y ? " / " : " ‛ "));
+            set.add(new CustomPoint(-x + centre.x * 2, i, i < centre.y ? " ‛ " : " ‘ "));
         }
 
         super.draw(includeCoordsCentre, set.toArray(new Point[0]));
+    }
+
+    private int getCoords(int i, int fromBrackets, int subtrahend) {
+        return (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - fromBrackets, 2))) + subtrahend;
     }
 
     @Override
