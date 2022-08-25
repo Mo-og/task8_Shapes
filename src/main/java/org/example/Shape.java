@@ -96,7 +96,12 @@ public abstract class Shape {
         public void drawPoint(Point p) {
             int row = maxY - p.y;
             int col = (p.x - minX) * AGGREGATE.length();
-            builders[row].replace(col, col + AGGREGATE.length(), POINT_DRAWING);
+            if (p instanceof CustomPoint custom) {
+                //length check and fix for `custom.drawing.length < AGGREGATE.length`
+                int colInd = col + (AGGREGATE.length() - custom.drawing.length()) / 2;
+                builders[row].replace(colInd, colInd + custom.drawing.length(), custom.drawing);
+            } else
+                builders[row].replace(col, col + AGGREGATE.length(), POINT_DRAWING);
         }
 
         @Override
@@ -109,6 +114,7 @@ public abstract class Shape {
             for (int i = 1; i < builders.length; i++) {
                 sb.append(builders[i]);
             }
+            sb.deleteCharAt(sb.length() - 1);
             return sb.toString();
         }
     }

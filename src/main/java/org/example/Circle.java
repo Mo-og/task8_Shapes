@@ -1,6 +1,9 @@
 package org.example;
 
 import java.awt.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Circle extends Shape {
     private static final String SHAPE_NAME = "Circle";
@@ -18,17 +21,41 @@ public class Circle extends Shape {
 
     @Override
     protected void draw(boolean includeCoordsCentre) {
-        Point left = ((Point) centre.clone());
-        Point right = ((Point) centre.clone());
-        Point top = ((Point) centre.clone());
-        Point bottom = ((Point) centre.clone());
+        CustomPoint left = new CustomPoint((Point) centre.clone(), " ( ");
+        CustomPoint right = new CustomPoint((Point) centre.clone(), " ) ");
+        CustomPoint top = new CustomPoint((Point) centre.clone(), " ^ ");
+        CustomPoint bottom = new CustomPoint((Point) centre.clone(), " _ ");
 
         left.translate((int) -radius, 0);
         right.translate((int) radius, 0);
         top.translate(0, (int) radius);
         bottom.translate(0, (int) -radius);
 
-        super.draw(includeCoordsCentre, centre, left, right, top, bottom);
+        Set<Point> set = new HashSet<>(List.of(centre, left, right, top, bottom));
+        //draw horizontally
+        for (int i = left.x + 1; i < centre.x; i++) {
+            int y = (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - centre.x, 2))) + centre.y;
+            set.add(new CustomPoint(i, y, " / "));
+            set.add(new CustomPoint(i, -y + centre.y * 2, " ‛ "));
+        }
+        for (int i = centre.x + 1; i < right.x; i++) {
+            int y = (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - centre.x, 2))) + centre.y;
+            set.add(new CustomPoint(i, y, " \\ "));
+            set.add(new CustomPoint(i, -y + centre.y * 2, " ‘ "));
+        }
+        //draw vertically
+        for (int i = bottom.y + 1; i < centre.y; i++) {
+            int x = (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - centre.y, 2))) + centre.x;
+            set.add(new CustomPoint(x, i, " / "));
+            set.add(new CustomPoint(-x + centre.x * 2, i, " ‛ "));
+        }
+        for (int i = centre.y + 1; i < top.y; i++) {
+            int x = (int) Math.round(Math.sqrt((radius * radius) - Math.pow((double) i - centre.y, 2))) + centre.x;
+            set.add(new CustomPoint(x, i, " ‛ "));
+            set.add(new CustomPoint(-x + centre.x * 2, i, " ‘ "));
+        }
+
+        super.draw(includeCoordsCentre, set.toArray(new Point[0]));
     }
 
     @Override
