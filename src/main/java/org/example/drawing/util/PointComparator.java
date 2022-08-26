@@ -1,4 +1,4 @@
-package org.example;
+package org.example.drawing.util;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -6,7 +6,8 @@ import java.util.Comparator;
 public class PointComparator implements Comparator<Point> {
     private static final PointComparator instance = new PointComparator();
 
-    private PointComparator() {}
+    private PointComparator() {
+    }
 
     public static PointComparator getInstance() {
         return instance;

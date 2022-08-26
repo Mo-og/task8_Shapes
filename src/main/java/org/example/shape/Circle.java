@@ -1,4 +1,6 @@
-package org.example;
+package org.example.shape;
+
+import org.example.drawing.CustomPoint;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -20,7 +22,7 @@ public class Circle extends Shape {
     }
 
     @Override
-    protected void draw(boolean includeCoordsCentre) {
+    public Point[] getPoints() {
         CustomPoint left = new CustomPoint((Point) centre.clone(), " ( ");
         CustomPoint right = new CustomPoint((Point) centre.clone(), " ) ");
         CustomPoint top = new CustomPoint((Point) centre.clone(), " ^ ");
@@ -46,7 +48,7 @@ public class Circle extends Shape {
             set.add(new CustomPoint(-x + centre.x * 2, i, i < centre.y ? " ‛ " : " ‘ "));
         }
 
-        super.draw(includeCoordsCentre, set.toArray(new Point[0]));
+        return set.toArray(new Point[0]);
     }
 
     private int getCoords(int i, int fromBrackets, int subtrahend) {

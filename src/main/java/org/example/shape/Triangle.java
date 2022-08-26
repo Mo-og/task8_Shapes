@@ -1,4 +1,6 @@
-package org.example;
+package org.example.shape;
+
+import org.example.drawing.util.PointComparator;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -41,8 +43,8 @@ public class Triangle extends Shape {
     }
 
     @Override
-    protected void draw(boolean includeCoordsCentre) {
-        super.draw(includeCoordsCentre, p1, p2, p3);
+    public Point[] getPoints() {
+        return new Point[]{p1, p2, p3};
     }
 
     @Override

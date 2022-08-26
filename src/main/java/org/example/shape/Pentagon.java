@@ -1,4 +1,6 @@
-package org.example;
+package org.example.shape;
+
+import org.example.drawing.util.PointComparator;
 
 import java.awt.*;
 import java.util.Iterator;
@@ -7,7 +9,6 @@ import java.util.TreeSet;
 
 public class Pentagon extends Shape {
     private static final String SHAPE_NAME = "Pentagon";
-
     private final Point p1;
     private final Point p2;
     private final Point p3;
@@ -40,12 +41,9 @@ public class Pentagon extends Shape {
         return SHAPE_NAME;
     }
 
-    /**
-     * @param includeCoordsCentre includes <code>Point(0;0)</code> in the resulting drawing represented by <code>⊙<code/> symbol if <code>true</code>
-     */
     @Override
-    protected void draw(boolean includeCoordsCentre) {
-        super.draw(includeCoordsCentre, p1, p2, p3, p4, p5);
+    public Point[] getPoints() {
+        return new Point[]{p1, p2, p3, p4, p5};
     }
 
     @Override

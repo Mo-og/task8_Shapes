@@ -1,4 +1,4 @@
-package org.example;
+package org.example.drawing;
 
 import java.awt.*;
 
